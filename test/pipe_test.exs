@@ -15,7 +15,7 @@ defmodule PipeTest do
       defmodule TestUsingPipe do
         use Pipe
 
-        pipe TestPipe
+        pipe TestPipe ~> TestPipe ~> TestPipe
         pipe TestPipe.with(from_pipe: 1)
         value_pipe TestPipe.with(from_value_pipe: 1)
         context_pipe TestPipe.with(from_context_pipe: 1)
@@ -39,8 +39,8 @@ defmodule PipeTest do
       end
 
       with_mock Action, [:non_strict], [call: fn(_, _)-> end] do
-        assert Pipe.run(1, TestUsingPipe, [initial: 1]) == {7, [from_inline_context_pipe: 1, from_inline_pipe: 1, from_test_pipe: 1, from_context_pipe: 1, from_pipe: 1, initial: 1]}
-        assert called Action.call(7, [])
+        assert Pipe.run(1, TestUsingPipe, [initial: 1]) == {11, [from_inline_context_pipe: 1, from_inline_pipe: 1, from_test_pipe: 1, from_context_pipe: 1, from_pipe: 1, initial: 1]}
+        assert called Action.call(11, [])
       end
     end
   end
