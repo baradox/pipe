@@ -11,6 +11,22 @@ defmodule Pipe do
         passthru_pipe: 1, passthru_pipe: 2,
       ]
 
+      def run(value, context) do
+        Pipe.run(value, __MODULE__, context)
+      end
+
+      def run(context \\ []) do
+        Pipe.run(nil, __MODULE__, context)
+      end
+
+      def call(value, context) do
+        Pipe.call(value, __MODULE__, context)
+      end
+
+      def call(context \\ []) do
+        Pipe.call(nil, __MODULE__, context)
+      end
+
       @before_compile Pipe.Builder
     end
   end
@@ -26,24 +42,13 @@ defmodule Pipe do
   end
 
   @doc "runs a pipe with {value, context} returns new value"
-  def value(value, spec, context) do
+  def call(value, spec, context) do
     {value, _} = run(value, spec, context)
     value
   end
 
   @doc "runs a pipe with {nil, context} returns new value"
-  def value(spec, context) do
-    value(nil, spec, context)
-  end
-
-  @doc "runs a pipe with {value, context} returns new context"
-  def context(value, spec, context) do
-    {_, context} = run(value, spec, context)
-    context
-  end
-
-  @doc "runs a pipe with {nil, context} returns new context"
-  def context(spec, context) do
-    context(nil, spec, context)
+  def call(spec, context) do
+    call(nil, spec, context)
   end
 end

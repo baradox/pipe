@@ -43,6 +43,33 @@ defmodule PipeTest do
         assert called Action.call(11, [])
       end
     end
+
+    defmodule TestConvenienceMethods do
+      use Pipe
+
+      pipe test(value, context) do
+        {value, context |> Dict.put(:context, 1)}
+      end
+    end
+
+
+    it "defines run/1" do
+      assert TestConvenienceMethods.run() == {nil, [context: 1]}
+      assert TestConvenienceMethods.run([run: 1]) == {nil, [context: 1, run: 1]}
+    end
+
+    it "defines run/2" do
+      assert TestConvenienceMethods.run(1, [run: 1]) == {1, [context: 1, run: 1]}
+    end
+
+    it "defines call/1" do
+      assert TestConvenienceMethods.call() == nil
+      assert TestConvenienceMethods.call([]) == nil
+    end
+
+    it "defines call/2" do
+      assert TestConvenienceMethods.call(1, []) == 1
+    end
   end
 
   describe "run/2" do
@@ -61,34 +88,18 @@ defmodule PipeTest do
     end
   end
 
-  describe "value/2" do
+  describe "call/2" do
     it 'runs Pipe.Spec.run with nil value and returns value only' do
       with_mock Pipe.Spec, [:passthrough], [run: fn(:spec, nil, context)->{1, context} end] do
-        assert Pipe.value(:spec, [context: 0]) == 1
+        assert Pipe.call(:spec, [context: 0]) == 1
       end
     end
   end
 
-  describe "value/3" do
+  describe "call/3" do
     it 'runs Pipe.Spec.run and returns value only' do
       with_mock Pipe.Spec, [:passthrough], [run: fn(:spec, value, context)->{value, context} end] do
-        assert Pipe.value(1, :spec, [context: 0]) == 1
-      end
-    end
-  end
-
-  describe "context/2" do
-    it 'runs Pipe.Spec.run with nil value and returns context only' do
-      with_mock Pipe.Spec, [:passthrough], [run: fn(:spec, nil, context)->{1, context |> Dict.put(:inner, 1)} end] do
-        assert Pipe.context(:spec, [context: 0]) == [inner: 1, context: 0]
-      end
-    end
-  end
-
-  describe "context/3" do
-    it 'runs Pipe.Spec.run and returns context only' do
-      with_mock Pipe.Spec, [:passthrough], [run: fn(:spec, 1, context)->{1, context |> Dict.put(:inner, 1)} end] do
-        assert Pipe.context(1, :spec, [context: 0]) == [inner: 1, context: 0]
+        assert Pipe.call(1, :spec, [context: 0]) == 1
       end
     end
   end
