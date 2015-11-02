@@ -1,4 +1,4 @@
-image: erlang
+image: elixir
 
 before_script:
   - mix deps.get
