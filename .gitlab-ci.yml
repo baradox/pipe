@@ -13,10 +13,10 @@ job1:
     - mix deps.compile
     - mix compile
   only:
-    - gitlab-ci
+    - master
 
 job2:
   stage: test
   script: mix test
   only:
-    - gitlab-ci
+    - master

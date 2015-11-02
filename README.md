@@ -1,4 +1,4 @@
-# Pipe [![build status](http://git.i.eryuapp.com/ci/projects/4/status.png?ref=gitlab-ci)](http://git.i.eryuapp.com/ci/projects/4?ref=gitlab-ci)
+# Pipe [![build status](http://git.i.eryuapp.com/ci/projects/4/status.png?ref=master)](http://git.i.eryuapp.com/ci/projects/4?ref=master)
 
 **TODO: Add description**
 
