@@ -1,0 +1,22 @@
+image: erlang
+
+before_script:
+  - mix deps.get
+
+stages:
+  - build
+  - test
+
+job1:
+  stage: build
+  script:
+    - mix deps.compile
+    - mix compile
+  only:
+    - gitlab-ci
+
+job2:
+  stage: test
+  script: mix test
+  only:
+    - gitlab-ci
