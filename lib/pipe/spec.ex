@@ -8,7 +8,11 @@ end
 defimpl Pipe.Spec, for: List do
   def run(spec, value, context) do
     Enum.reduce(spec, {value, context}, fn(s, {value, context})->
-      Pipe.Spec.run(s, value, context)
+      unless context[:halt] do
+        Pipe.Spec.run(s, value, context)
+      else
+        {value, context}
+      end
     end)
   end
 end
