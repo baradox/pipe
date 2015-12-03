@@ -1,6 +1,7 @@
 defmodule Pipe.Builder do
   defmacro __before_compile__(_env) do
     quote do
+      @doc false
       def with(context \\ []) do
         %Pipe.ContextSpec{spec: @specs, context: context}
       end

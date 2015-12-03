@@ -11,18 +11,22 @@ defmodule Pipe do
         passthru_pipe: 1, passthru_pipe: 2,
       ]
 
+      @doc false
       def run(value, context) do
         Pipe.run(value, __MODULE__, context)
       end
 
+      @doc false
       def run(context \\ []) do
         Pipe.run(nil, __MODULE__, context)
       end
 
+      @doc false
       def call(value, context) do
         Pipe.call(value, __MODULE__, context)
       end
 
+      @doc false
       def call(context \\ []) do
         Pipe.call(nil, __MODULE__, context)
       end
